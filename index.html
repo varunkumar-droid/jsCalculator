@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   
+</head>
+<body>
+ 
+
+
+
+  <Form method="post" action="/" class="length_and_width form">   
+   <table class="table-responsive">
+      <thead>
+          <td> Name</td>
+          <th>Length</th>
+          <th>width</th>
+          <th>Total Area</th>
+          <th>Unit</th>
+      </thead>  
+      <tbody class="roomAdd">
+<tr>
+    <td><p class="add">Add Room</p></td>
+</tr>
+        
+      </tbody>
+      <tfoot>
+        <tr>
+            <td>
+                <div class="Total">
+                    <p>Total Area</p>:
+                    <input type="text" readonly class="value">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                
+                <div class="Estimated_Cost">
+                    <p>Product Price :60</p>
+                    <p>10% wastage </p>
+
+                    <p>Estimate Cost of Material</p>
+                    <input type="text" readonly class="estimation">
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="transportationCharges">
+                    <p>Transportation Charges :500</p>
+                    <p> Cost</p>
+                    <input type="text" readonly class="finalCost">
+                    
+                </div>
+            </td>
+        </tr>
+          
+      </tfoot>
+   </table>
+   <div class="addOnClick">Click Here For Add On</div>
+   <br>
+     <table class="AddOn">
+         <thead>
+             <th>
+                 Item
+             </th>
+             <th>
+                 Cost
+             </th>
+             
+         </thead>
+         <tbody>
+             <tr>
+             <td>
+                 <input type="checkbox" class="checked" value="2235.75">
+                 
+                     Installation Labour
+                    
+                 
+             </td>
+             <td>
+                 2,235.75
+             </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" class="checked" value="670.73">
+                    
+                        Flooring Removal
+                    
+                </td>
+                <td>
+                    670.73
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" class="staircaseCostFinal checked "  value="1200">
+                   
+                        Installation on Staircase 10 steps
+                        <br>
+                        <input type="number" min="10" class="staircaseCost " value="10" class="steps" step=10 />
+                        <script>
+                            $(".steps").keypress(function (evt) {
+    evt.preventDefault();
+    
+});
+                        </script>
+                </td>
+                <td><p class="costBasedOnSteps">1200</p></td>
+            </tr>
+            <tr>
+                <td>
+                <input type="checkbox" class="checked" value="804.87">
+               Unloading Charges
+                </td>
+                <td>
+                    804.87
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Estimate Installation Cost
+                </td>
+                <td>
+                    <input type="text" readonly value="0"class="EstimateInstallationCost">
+                </td>
+            </tr>
+           
+
+         </tbody>
+     </table>
+     Estimated Project Total Cost
+     <input type="text" readonly value="0" class="estimatedProjectCost">
+  </form>
+  
+  <script>
+    
+     
+
+   
+      var object=[];
+    $('#length0, #width0').on('input', function () {
+    var length0 = parseInt($('#length0').val());
+    
+    var width0 = parseFloat($('#width0').val());
+    $('#Total').val(( length0* width0 ? length0 * width0 : 0).toFixed(2));
+});
+var sum=0;
+$(".add").on("click",()=>{ 
+
+   
+    object.push(elementCreation());
+
+ 
+
+ object.forEach((e)=>{
+ $(`#${e.lengthid},#${e.widthid}`).on('input',()=>{
+     var length=parseFloat($(`#${e.lengthid}`).val());
+     var width=parseFloat($(`#${e.widthid}`).val());
+     var total=length*width;
+     $(`#${e.totalid}`).val(( length* width ? length * width : 0).toFixed(2));
+    
+ });
+ })
+  
+})
+var stepboxvalue="";
+
+setInterval(() => {
+    
+    var sum=0;
+    if(!$(".total").length){
+        document.querySelector(".value").value=0;
+    }else{
+        document.querySelectorAll(".total").forEach((e)=>{
+    
+    sum=sum+parseFloat(e.value);
+    document.querySelector(".value").value=(sum).toFixed(2);
+    if(isNaN(document.querySelector(".value").value)){
+        document.querySelector(".value").value=0;
+    }
+  
+})
+    }
+  
+    var value=document.querySelector(".value").value;
+
+     var finalValue=value*60;
+     var percent10=(finalValue/100)*10;
+     document.querySelector(".estimation").value=(finalValue+percent10).toFixed(2);
+     var cost=document.querySelector(".estimation").value;
+     if(cost==0){
+         document.querySelector(".finalCost").value=0;
+     }else{
+        var tranportCost=500;
+
+var lastCost=tranportCost+parseFloat(cost);
+document.querySelector(".finalCost").value=(lastCost).toFixed(2);
+     }
+ 
+//   var costSteps=document.querySelector(".staircaseCostFinal").value;
+var costSteps=1200;
+  var steps=document.querySelector(".staircaseCost").value;
+  if(steps==10){
+      
+      document.querySelector(".staircaseCostFinal").value=1200;
+      document.querySelector(".costBasedOnSteps").innerHTML="1200";
+  }else{
+      var staircaseBasedCost=(steps/10)*costSteps;
+      
+       document.querySelector(".costBasedOnSteps").innerHTML=staircaseBasedCost;
+       
+     
+       document.querySelector(".staircaseCostFinal").value=staircaseBasedCost;
+  }
+var EstimateInstallionCost=document.querySelector(".EstimateInstallationCost").value;
+var FinalEstimationCost=document.querySelector(".finalCost").value;
+  document.querySelector(".estimatedProjectCost").value=(parseFloat(EstimateInstallionCost)+parseFloat(FinalEstimationCost)).toFixed(2);
+  if(document.querySelector(".staircaseCostFinal").checked==true){
+      document.querySelector(".staircaseCost").style.display="none";
+  }else{
+    document.querySelector(".staircaseCost").style.display="";
+  }
+});
+// document.querySelector(".staircaseCostFinal").value=stepboxvalue;
+var n = 0;
+function elementCreation(){
+    n++;
+    var tr=document.createElement("tr");
+    tr.setAttribute("id",`Room${n}`);
+    tr.innerHTML=`<td >Room  </td>
+    <td><input  type="number" id="length${n}" class="length${n}"  ></td>
+    <td> <input type="number" id="width${n}" class="width${n}"></td>
+    <td>  <input type="text" id="Total${n}" class="Total${n} total " readonly></td>
+    <td> ft</td>
+    <td> <p class="delete">Delete</p> </td>`;
+     document.querySelector(".roomAdd").appendChild(tr);
+     $(".delete").on("click",(e)=>{
+   var id=e.target.parentNode.parentElement.id;
+   
+   $(`#${id}`).remove();
+   
+  })
+  
+
+
+
+return {
+    id:n,
+    roomid:`Room${n}`,
+    lengthid:`length${n}`,
+    widthid:`width${n}`,
+    totalid:`Total${n}`
+  }
+   
+  
+}
+let information = {};
+information['letters'] = [];
+var estimationTotal=0;
+function valueChecked(){
+    var checkbox = Array.from(document.getElementsByClassName("checked"));
+    for (var i = 0; i < checkbox.length; i++) {
+    var sbVal = checkbox[i].value;
+
+    if (checkbox[i].checked && information.letters.indexOf(sbVal) < 0) {
+   
+      information.letters.push(checkbox[i].value);
+      estimationTotal=parseFloat(estimationTotal)+parseFloat(sbVal);
+      continue;
+    }
+
+    if (checkbox[i].checked === false && information.letters.indexOf(sbVal) >= 0) {
+      var j = information.letters.indexOf(sbVal);
+      estimationTotal=parseFloat(estimationTotal)-parseFloat(sbVal);
+      information.letters.splice(j, 1);
+      
+    }
+  }
+  if(estimationTotal.toFixed(2)==-0.00){
+    document.querySelector(".EstimateInstallationCost").value=-estimationTotal.toFixed(2)
+  }else{
+    document.querySelector(".EstimateInstallationCost").value=estimationTotal.toFixed(2)
+  }
+  
+}
+var box=document.getElementsByClassName("checked");
+if(box[0].addEventListener){
+    for(var i=0;i<box.length;i++){
+        box[i].addEventListener("change",valueChecked,false);
+    }
+}else if(box[0].attachEvent){
+    for(var i=0;i<box.length;i++){
+        box[i].attachEvent("onchange",valueChecked);
+    }
+}
+$(".AddOn").hide();
+$(".addOnClick").on("click",()=>{
+    $(".AddOn").toggle();
+})
+</script>
+</body>
+</html>
