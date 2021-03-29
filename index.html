@@ -19,12 +19,20 @@
           <td> Name</td>
           <th>Length</th>
           <th>width</th>
-          <th>Total Area</th>
+          <th>Total Area(ft)</th>
           <th>Unit</th>
       </thead>  
       <tbody class="roomAdd">
 <tr>
     <td><p class="add">Add Room</p></td>
+    <td><select name="units" class="units">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="m">m</option>
+        <option value="in">in</option>
+        <option value="ft" selected>ft</option>
+        <option value="yd">yd</option>
+    </select></td>
 </tr>
         
       </tbody>
@@ -32,7 +40,7 @@
         <tr>
             <td>
                 <div class="Total">
-                    <p>Total Area</p>:
+                    <p>Total Area (ft)</p>:
                     <input type="text" readonly class="value">
                 </div>
             </td>
@@ -161,11 +169,53 @@ $(".add").on("click",()=>{
  
 
  object.forEach((e)=>{
+
  $(`#${e.lengthid},#${e.widthid}`).on('input',()=>{
-     var length=parseFloat($(`#${e.lengthid}`).val());
+     setInterval(()=>{
+        if(document.querySelector(".units").value=="mm"){
+        var length=parseFloat($(`#${e.lengthid}`).val());
+     var width=parseFloat($(`#${e.widthid}`).val());
+     var total=length*width;
+     console.log("hello");
+     $(`#${e.totalid}`).val(( (length* width)/304.8 ? (length * width)/304.8 : 0).toFixed(2));
+     }
+     else if(document.querySelector(".units").value=="cm"){
+        var length=parseFloat($(`#${e.lengthid}`).val());
+     var width=parseFloat($(`#${e.widthid}`).val());
+     var total=length*width;
+     console.log("hello");
+     $(`#${e.totalid}`).val(( (length* width)/30.48 ? (length * width)/30.48: 0).toFixed(2)); 
+     }
+     else if(document.querySelector(".units").value=="m"){
+        var length=parseFloat($(`#${e.lengthid}`).val());
+     var width=parseFloat($(`#${e.widthid}`).val());
+     var total=length*width;
+     console.log("hello");
+     $(`#${e.totalid}`).val(( (length* width)/0.3048 ? (length * width)/0.3048: 0).toFixed(2)); 
+     }
+     else if(document.querySelector(".units").value=="in"){
+        var length=parseFloat($(`#${e.lengthid}`).val());
+     var width=parseFloat($(`#${e.widthid}`).val());
+     var total=length*width;
+     console.log("hello");
+     $(`#${e.totalid}`).val(( (length* width)/12 ? (length * width)/12: 0).toFixed(2)); 
+     }
+     else if(document.querySelector(".units").value=="yd"){
+        var length=parseFloat($(`#${e.lengthid}`).val());
+     var width=parseFloat($(`#${e.widthid}`).val());
+     var total=length*width;
+     console.log("hello");
+     $(`#${e.totalid}`).val(( (length* width)*3 ? (length * width)*3: 0).toFixed(2)); 
+     }
+     else{
+        var length=parseFloat($(`#${e.lengthid}`).val());
      var width=parseFloat($(`#${e.widthid}`).val());
      var total=length*width;
      $(`#${e.totalid}`).val(( length* width ? length * width : 0).toFixed(2));
+     }
+     })
+
+     
     
  });
  })
@@ -228,6 +278,7 @@ var FinalEstimationCost=document.querySelector(".finalCost").value;
   }else{
     document.querySelector(".staircaseCost").style.display="";
   }
+document.querySelector(".units").value;
 });
 // document.querySelector(".staircaseCostFinal").value=stepboxvalue;
 var n = 0;
@@ -239,7 +290,7 @@ function elementCreation(){
     <td><input  type="number" id="length${n}" class="length${n}"  ></td>
     <td> <input type="number" id="width${n}" class="width${n}"></td>
     <td>  <input type="text" id="Total${n}" class="Total${n} total " readonly></td>
-    <td> ft</td>
+    <td> (ft)</td>
     <td> <p class="delete">Delete</p> </td>`;
      document.querySelector(".roomAdd").appendChild(tr);
      $(".delete").on("click",(e)=>{
